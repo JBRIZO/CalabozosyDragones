@@ -10,6 +10,7 @@ public class Heroe
     private int vida = 100;
     private int experiencia = 0;
     private  boolean defender = false;
+    private int turnos = 3;
 
     public boolean isDefender() {
         return defender;
@@ -28,8 +29,8 @@ public class Heroe
         this.nombre = nombre;
     }
 
-    public void getPociones() {
-        System.out.println("Usted tiene: " + pociones +" pociones de salud.");
+    public int getPociones() {
+        return  pociones;
     }
 
     public void setPociones(int pociones) {
@@ -65,7 +66,7 @@ public class Heroe
                 int  opc = sc.nextInt();
                 if (opc == 1)
                 {
-                    int atk = (int)(r.nextDouble()*20+1);
+                    int atk = (int)(r.nextDouble()*15+1);
                     cuarto.getEnemigos(0).setVida(cuarto.getEnemigos(0).getVida() - atk );
                     System.out.println("Atacas a "+ cuarto.getEnemigos(0).getNombre() + " y ejerces " + atk + " puntos de daño!!");
                     if (cuarto.getEnemigos(0).getVida() < 1)
@@ -87,13 +88,14 @@ public class Heroe
                             }else
                             {
                                 cuarto.getEnemigos(0).atacar(this);
+                                turnos++;
                             }
                         }
                 }else
                     {
                         if (opc == 2)
                         {
-                            int atk = (int)(r.nextDouble()*20+1);
+                            int atk = (int)(r.nextDouble()*15+1);
                             cuarto.getEnemigos(1).setVida(cuarto.getEnemigos(1).getVida() - atk);
                             System.out.println("Atacas a "+ cuarto.getEnemigos(1).getNombre() + " y ejerces " + atk + " puntos de daño!!");
 
@@ -111,6 +113,7 @@ public class Heroe
                         }else
                             {
                                 cuarto.getEnemigos(1).atacar(this);
+                                turnos++;
                             }
                     }
             }
@@ -125,21 +128,36 @@ public class Heroe
 
     public void usarPocion()
     {
-        if (pociones < 1)
+        if (vida == 100)
         {
-            System.out.println("No hay pociones para tomar.");
+            System.out.println("Ya tienes el maximo de vida");
         }else
             {
-                pociones = pociones - 1;
-                vida =vida + 20;
-                System.out.println("Has tomado una pocion, tu salud ha incrementado en 20 pts.");
+                if (pociones < 1)
+                {
+                    System.out.println("No hay pociones para tomar.");
+                }else
+                {
+                    pociones = pociones - 1;
+                    vida =vida + 20;
+                    System.out.println("Has tomado una pocion, tu salud ha incrementado en 20 pts.");
+                }
             }
+
 
     }
     public void defender ()
     {
-        System.out.println("El siguiente turno te defiendes de los ataques de los enemigos");
-        defender = true;
+        if ((turnos%3) == 0)
+        {
+            System.out.println("El siguiente turno te defiendes de los ataques de los enemigos");
+            turnos++;
+            defender = true;
+        }else
+            {
+                System.out.println("Todavia no te puedes defender");
+            }
+
     }
 
 }

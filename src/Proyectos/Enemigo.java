@@ -3,7 +3,6 @@ package Proyectos;
 import java.util.*;
 public class Enemigo
 {
-    Random r = new Random();
    private int vida;
    private String nombre;
    private int pocion;
@@ -48,8 +47,8 @@ public class Enemigo
         if (vida > 0)
         {
             Random r = new Random();
-            int atk = (int)(r.nextDouble()*100+100);
-            heroe.setVida(getVida()-atk);
+            int atk = (int)(r.nextDouble()*10+1);
+            heroe.setVida(heroe.getVida() - atk);
             System.out.println(nombre + " te ataca y ejerce " + atk + " puntos de daño!!");
         }
 

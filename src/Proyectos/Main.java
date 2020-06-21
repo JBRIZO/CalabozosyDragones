@@ -10,6 +10,7 @@ public class Main {
         Heroe heroe = new Heroe();
         Random r = new Random();
         Scanner sc = new Scanner(System.in);
+        int retornar ;
         generarCuartos();
         System.out.println("Bienvenido(a) a calabozos y dragones, estos son tus controles:");
         System.out.println("Mirar: Muestra cuantos enemigos y pociones hay en el cuarto.");
@@ -20,8 +21,9 @@ public class Main {
         System.out.println("Izquierda: Te permite salir del cuarto por la salida oeste hacia otro cuarto");
         System.out.println("Atacar: Ataque un enemigo al azar.");
         System.out.println("Defender: te defiendes por un turno del ataque enemigo.");
-        System.out.println("Usar: usas una pocion de las que has acumulado");
-        System.out.println("Heroe: puedes ver el numero de pociones que llevas contigo y tu salud");
+        System.out.println("Usar: usas una pocion de las que has acumulado.");
+        System.out.println("Heroe: puedes ver el numero de pociones que llevas contigo y tu salud.");
+        System.out.println("Salir: para salir del juego.");
         System.out.println("¡Empezemos!");
         System.out.println(" ");
         System.out.println(" ");
@@ -31,13 +33,14 @@ public class Main {
             try {
                 int num;
                 num = r.nextInt(6);
+                retornar = num;
                 cuartos.get(num);
                 System.out.println(" Ahora te encuentras en el cuarto: " + (num+1));
                 System.out.println("¿Que deseas hacer?");
                 boolean salir2 = false;
                 while (!salir2) {
                     String opcion = sc.next();
-                    switch (opcion) {
+                    switch (opcion.toLowerCase()) {
                         case "mirar":
                             cuartos.get(num).mostrarEnemigos();
                             cuartos.get(num).mostrarPociones();
@@ -46,11 +49,12 @@ public class Main {
                             heroe.recogerPocion(cuartos.get(num));
                             break;
                         case "avanzar":
+                            retornar = num;
                             num = r.nextInt(6);
                             System.out.println("Ahora estas en el cuarto " + (num + 1));
                             break;
                         case "retroceder":
-                            num = r.nextInt(6);
+                            num = retornar;
                             System.out.println("Ahora estas en el cuarto " + (num + 1));
                             break;
                         case "derecha":
@@ -78,6 +82,12 @@ public class Main {
                             heroe.usarPocion();
                             break;
                         case "heroe":
+                            System.out.println("HP: " + heroe.getVida());
+                            System.out.println("Pociones disponibles: " + heroe.getPociones());
+                            break;
+                        case "salir":
+                            System.out.println("Gracias por jugar");
+                            salir2 = true;
                             break;
                         default:
                             System.out.println("No conozco esa palabra");
@@ -91,7 +101,7 @@ public class Main {
     }
 
     public static void generarCuartos() {
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < 40; i++) {
             Cuarto cuarto = new Cuarto();
             generarEnemigo(cuarto);
             cuartos.add(cuarto);
